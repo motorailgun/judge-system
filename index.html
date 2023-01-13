@@ -1,0 +1,18 @@
+<head>
+    <title>test page</title>
+    <script src="./index.js"></script>
+</head>
+
+<body>
+    <form action="/submit" method="post">
+        <select id="submit-lang-select" name="submit_lang">
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="python">Python</option>
+            <option value="rust">Rust</option>
+            <option value="ruby">Ruby</option>
+        </select>
+        <textarea id="submit-code" name="submit_code" rows="10" cols="80"></textarea>
+        <button type="submit" id="submit-button">回答を送信</button>
+    </form>
+</body>

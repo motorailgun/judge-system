@@ -1,0 +1,66 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "DaemonSet",
+    "metadata": {
+        "name": "judge",
+        "namespace": "judge",
+        "labels": {
+            "daemonset": "judge"
+        }
+    },
+
+    "spec": {
+        "selector": {
+            "matchLabels": { "name": "judge" }
+        },
+        "template": {
+            "metadata": {
+                "labels": { "name": "judge" }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "distributor",
+                        "image": "distributor"
+                    },
+                    {
+                        "name": "nodejs",
+                        "image": "judge-nodejs",
+                        "resources": {
+                            "limits": {
+                                "memory": "4Gi"
+                            }
+                        }
+                    },
+                    {
+                        "name": "ruby",
+                        "image": "judge-ruby",
+                        "resources": {
+                            "limits": {
+                                "memory": "4Gi"
+                            }
+                        }
+                    },
+                    {
+                        "name": "cpp",
+                        "image": "judge-cpp",
+                        "resources": {
+                            "limits": {
+                                "memory": "4Gi"
+                            }
+                        }
+                    },
+                    {
+                        "name": "python",
+                        "image": "judge-python",
+                        "resources": {
+                            "limits": {
+                                "memory": "4Gi"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
