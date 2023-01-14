@@ -5,8 +5,21 @@ metadata:
 data:
   queue_addr: "192.168.1.10"
   queue_port: "5001"
-  
+
 ---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lang_port
+data:
+  nodejs_port: "6001"
+  cpp_port: "6002"
+  python_port: "6003"
+  ruby_port: "6004"
+
+---
+
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -29,23 +42,39 @@ spec:
         envFrom:
           - configMapRef:
               name: queue_addr
+
       - name: nodejs
         image: judge-nodejs
+        envFrom:
+          - configMapRef:
+              name: lang_port
         resources:
           limits:
             memory: 4Gi
+
       - name: ruby
         image: judge-ruby
+        envFrom:
+          - configMapRef:
+              name: lang_port
         resources:
           limits:
             memory: 4Gi
+
       - name: cpp
         image: judge-cpp
+        envFrom:
+          - configMapRef:
+              name: lang_port
         resources:
           limits:
             memory: 4Gi
+
       - name: python
         image: judge-python
+        envFrom:
+          - configMapRef:
+              name: queue_addr
         resources:
           limits:
             memory: 4Gi
