@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package dist_worker;
+
 option go_package = "pb/";
 
 enum Language {
@@ -15,7 +17,7 @@ message Submission {
     uint64 id = 3;
 }
 
-enum JudgeResult {
+enum JudgeInfo {
     ac = 0;
     wa = 1;
     ce = 2;
@@ -23,7 +25,11 @@ enum JudgeResult {
     mle = 4;
 }
 
-message Result {
-    JudgeResult result_code = 1;
+message JudgeResult {
+    JudgeInfo result_code = 1;
     Submission submission = 2;
+}
+
+service JudgeService {
+    rpc Submit (Submission) returns (JudgeResult) {}
 }
