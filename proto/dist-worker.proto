@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = "pb/";
+
+enum Language {
+    nodejs = 0;
+    ruby = 1;
+    python = 2;
+    cpp = 3;
+}
+
+message Submission {
+    Language language = 1;
+    string code = 2;
+    uint64 id = 3;
+}
+
+enum JudgeResult {
+    ac = 0;
+    wa = 1;
+    ce = 2;
+    re = 3;
+    mle = 4;
+}
+
+message Result {
+    JudgeResult result_code = 1;
+    Submission submission = 2;
+}

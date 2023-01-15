@@ -1,9 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+	"os"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	queue_addr := os.Getenv("QUEUE_ADDR")
+	queue_port := os.Getenv("QUEUE_PORT")
+
+	response, err := http.Get(queue_addr + queue_port)
+
 }
