@@ -1,4 +1,4 @@
-module github.com/motorailgun/futuristic/judger
+module distributor
 
 go 1.19
 
