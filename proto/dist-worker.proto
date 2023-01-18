@@ -14,7 +14,9 @@ enum Language {
 message Submission {
     Language language = 1;
     string code = 2;
-    uint64 id = 3;
+    uint64 user_id = 3;
+    uint64 problem_id = 4;
+    uint64 submission_id = 5;
 }
 
 enum JudgeInfo {
@@ -30,6 +32,14 @@ message JudgeResult {
     Submission submission = 2;
 }
 
+message Job {
+    bool valid_job = 1;
+    Submission Submission = 2;
+}
+
+message Empty {}
+
 service JudgeService {
-    rpc Submit (Submission) returns (JudgeResult) {}
+    rpc Submit (Submission) returns (Empty) {}
+    rpc GetJob (Empty) returns (Job) {}
 }

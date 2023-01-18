@@ -6,6 +6,9 @@ import (
 	"os"
 
 	"google.golang.org/grpc"
+
+	"service_queue/pb"
+	"service_queue/service"
 )
 
 func main() {
@@ -17,5 +20,5 @@ func main() {
 	}
 
 	server := grpc.NewServer()
-
+	pb.RegisterJudgeServiceServer(server, service.NewJudgeService())
 }
