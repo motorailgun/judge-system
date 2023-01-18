@@ -12,7 +12,7 @@ type JudgeService struct {
 
 func NewJudgeService() *JudgeService {
 	return &JudgeService{
-		job_queue: make([]*pb.Submission, 5),
+		job_queue: make([]*pb.Submission, 0),
 	}
 }
 
