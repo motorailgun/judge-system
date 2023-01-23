@@ -39,6 +39,6 @@ func (client *WorkerClient) RunJudge(submission *pb.Submission) (*pb.JudgeResult
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*30)
 	defer cancel()
 
-	c := dist_worker.NewLangServiceClient(conn)
-	return c.RunJudge(ctx, submission)
+	cli := dist_worker.NewLangServiceClient(conn)
+	return cli.RunJudge(ctx, submission)
 }

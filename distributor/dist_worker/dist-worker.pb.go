@@ -9,7 +9,7 @@ package dist_worker
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	pb "pb/"
+	pb "distributor/pb"
 	reflect "reflect"
 )
 
