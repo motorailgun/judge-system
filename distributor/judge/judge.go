@@ -26,7 +26,8 @@ func (j *Judger) Judge(job *pb.Job) (*pb.JudgeResult, error) {
 	lang_driver := j.drivers[job.Submission.Language.String()]
 	if lang_driver != nil {
 		return {
-			
+			5,
+			job.
 		}
 	}
 }
