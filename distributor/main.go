@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"distributor/client"
+	"distributor/judge"
 )
 
 const polling_interval int = 2
@@ -23,6 +24,9 @@ func main() {
 			fmt.Fprintf(os.Stderr, "failed to get job from queue: %v", err)
 			time.Sleep(time.Second * time.Duration(additional_wait_on_failure))
 		}
+
+		judger := judge.NewJudger()
+		_, err = judger.Judge(job)
 
 		time.Sleep(
 			time.Second*time.Duration(polling_interval) + time.Millisecond*time.Duration(rand.Intn(200)),

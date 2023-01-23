@@ -25,6 +25,7 @@ enum JudgeInfo {
     ce = 2;
     re = 3;
     mle = 4;
+    err = 5;
 }
 
 message JudgeResult {

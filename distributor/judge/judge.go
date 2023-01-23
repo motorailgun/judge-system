@@ -1,8 +1,7 @@
 package judge
 
 import (
-	"os"
-	"strings"
+	"distributor/pb"
 )
 
 var languages []string = []string{
@@ -10,16 +9,24 @@ var languages []string = []string{
 }
 
 type Judger struct {
-	port map[string]string
+	drivers map[string]LangDriver
+}
+
+type LangDriver interface {
+	Judge(*pb.Job) (*pb.JudgeResult, error)
 }
 
 func NewJudger() Judger {
-	judger := Judger{make(map[string]string)}
-	for _, lang := range languages {
-		env_key := strings.ToUpper(lang) + "_port"
-
-		judger.port[lang] = os.Getenv(env_key)
-	}
+	judger := Judger{make(map[string]LangDriver)}
 
 	return judger
+}
+
+func (j *Judger) Judge(job *pb.Job) (*pb.JudgeResult, error) {
+	lang_driver := j.drivers[job.Submission.Language.String()]
+	if lang_driver != nil {
+		return {
+			
+		}
+	}
 }
