@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package dist_worker;
+package queue_worker;
 
 option go_package = "pb/";
 
