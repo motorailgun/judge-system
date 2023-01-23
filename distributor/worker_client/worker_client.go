@@ -26,7 +26,10 @@ func NewWorkerClient(port string) WorkerClient {
 
 func (client *WorkerClient) RunJudge(submission *pb.Submission) (*pb.JudgeResult, error) {
 	address := client.address + ":" + client.port
-	conn, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	ctx, cancel1 := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel1()
+
+	conn, err := grpc.DialContext(ctx, address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "worker connection failed: %v\n", err)
 		return &pb.JudgeResult{
@@ -36,8 +39,8 @@ func (client *WorkerClient) RunJudge(submission *pb.Submission) (*pb.JudgeResult
 	}
 	defer conn.Close()
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*30)
-	defer cancel()
+	ctx, cancel2 := context.WithTimeout(context.Background(), time.Minute*30)
+	defer cancel2()
 
 	cli := dist_worker.NewLangServiceClient(conn)
 	return cli.RunJudge(ctx, submission)

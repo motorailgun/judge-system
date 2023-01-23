@@ -23,11 +23,12 @@ func main() {
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "failed to get job from queue: %v", err)
 			time.Sleep(time.Second * time.Duration(additional_wait_on_failure))
+			continue
 		}
 
 		if job.ValidJob {
 			judger := judge.NewJudger()
-			_, err = judger.Judge(job.Submission)
+			_, _ = judger.Judge(job.Submission)
 		}
 
 		time.Sleep(

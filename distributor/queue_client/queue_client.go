@@ -25,15 +25,18 @@ func NewJobGetter(address string, port string) JobGetter {
 
 func (worker *JobGetter) GetJob() (*pb.Job, error) {
 	address := worker.server_address + ":" + worker.server_port
-	connection, err := grpc.Dial(address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
+	ctx, cancel1 := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel1()
+
+	connection, err := grpc.DialContext(ctx, address, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "gRPC Dial failed: %v\n", err)
 		return &pb.Job{}, err
 	}
 	defer connection.Close()
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
-	defer cancel()
+	ctx, cancel2 := context.WithTimeout(context.Background(), time.Second*2)
+	defer cancel2()
 
 	client := pb.NewJudgeServiceClient(connection)
 	return client.GetJob(ctx, &pb.Empty{})
