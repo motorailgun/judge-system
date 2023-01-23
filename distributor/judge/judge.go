@@ -2,6 +2,10 @@ package judge
 
 import (
 	"distributor/pb"
+	"distributor/worker_client"
+	"fmt"
+	"os"
+	"strings"
 )
 
 var languages []string = []string{
@@ -9,7 +13,7 @@ var languages []string = []string{
 }
 
 type Judger struct {
-	drivers map[string]LangDriver
+	ports map[string]string
 }
 
 type LangDriver interface {
@@ -17,17 +21,25 @@ type LangDriver interface {
 }
 
 func NewJudger() Judger {
-	judger := Judger{make(map[string]LangDriver)}
+	judger := Judger{make(map[string]string)}
+	for _, lang := range languages {
+		judger.ports[lang] = os.Getenv(strings.ToUpper(lang) + "_PORT")
+	}
 
 	return judger
 }
 
-func (j *Judger) Judge(job *pb.Job) (*pb.JudgeResult, error) {
-	lang_driver := j.drivers[job.Submission.Language.String()]
-	if lang_driver != nil {
-		return {
-			5,
-			job.
-		}
+func (j *Judger) Judge(submission *pb.Submission) (*pb.JudgeResult, error) {
+	port := j.ports[submission.Language.String()]
+	if port == "" {
+		fmt.Fprintf(os.Stderr, "got unknown language: %s: possibly not implemented yet?\n", submission.Language.String())
+
+		return &pb.JudgeResult{
+			ResultCode: pb.JudgeInfo_err,
+			Submission: submission,
+		}, nil
 	}
+
+	client := worker_client.NewWorkerClient(port)
+	return client.RunJudge(submission)
 }

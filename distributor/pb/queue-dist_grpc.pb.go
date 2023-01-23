@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.12
-// source: queue-worker.proto
+// source: queue-dist.proto
 
 package pb
 
@@ -36,7 +36,7 @@ func NewJudgeServiceClient(cc grpc.ClientConnInterface) JudgeServiceClient {
 
 func (c *judgeServiceClient) Submit(ctx context.Context, in *Submission, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/queue_worker.JudgeService/Submit", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/queue_dist.JudgeService/Submit", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *judgeServiceClient) Submit(ctx context.Context, in *Submission, opts ..
 
 func (c *judgeServiceClient) GetJob(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Job, error) {
 	out := new(Job)
-	err := c.cc.Invoke(ctx, "/queue_worker.JudgeService/GetJob", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/queue_dist.JudgeService/GetJob", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func _JudgeService_Submit_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/queue_worker.JudgeService/Submit",
+		FullMethod: "/queue_dist.JudgeService/Submit",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServiceServer).Submit(ctx, req.(*Submission))
@@ -112,7 +112,7 @@ func _JudgeService_GetJob_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/queue_worker.JudgeService/GetJob",
+		FullMethod: "/queue_dist.JudgeService/GetJob",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JudgeServiceServer).GetJob(ctx, req.(*Empty))
@@ -124,7 +124,7 @@ func _JudgeService_GetJob_Handler(srv interface{}, ctx context.Context, dec func
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var JudgeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "queue_worker.JudgeService",
+	ServiceName: "queue_dist.JudgeService",
 	HandlerType: (*JudgeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -137,5 +137,5 @@ var JudgeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "queue-worker.proto",
+	Metadata: "queue-dist.proto",
 }

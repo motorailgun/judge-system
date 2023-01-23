@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package dist_worker;
+
+import "queue-dist.proto";
+
+option go_package = "dist_worker/";
+
+service LangService {
+    rpc RunJudge (queue_dist.Submission) returns (queue_dist.JudgeResult) {}
+}

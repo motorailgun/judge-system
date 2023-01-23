@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"distributor/client"
 	"distributor/judge"
+	"distributor/queue_client"
 )
 
 const polling_interval int = 2
@@ -16,7 +16,7 @@ const additional_wait_on_failure int = 15
 func main() {
 	queue_addr := os.Getenv("QUEUE_ADDR")
 	queue_port := os.Getenv("QUEUE_PORT")
-	worker := client.NewJobGetter(queue_addr, queue_port)
+	worker := queue_client.NewJobGetter(queue_addr, queue_port)
 
 	for {
 		job, err := worker.GetJob()
@@ -25,8 +25,10 @@ func main() {
 			time.Sleep(time.Second * time.Duration(additional_wait_on_failure))
 		}
 
-		judger := judge.NewJudger()
-		_, err = judger.Judge(job)
+		if job.ValidJob {
+			judger := judge.NewJudger()
+			_, err = judger.Judge(job.Submission)
+		}
 
 		time.Sleep(
 			time.Second*time.Duration(polling_interval) + time.Millisecond*time.Duration(rand.Intn(200)),

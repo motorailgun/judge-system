@@ -1,4 +1,4 @@
-package client
+package queue_client
 
 import (
 	"context"
